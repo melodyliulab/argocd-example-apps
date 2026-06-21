@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: direct-helm-repo-demo
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: nginx
+    helm:
+      parameters:
+      - name: service.type
+        value: ClusterIP
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 25.0.6
+  syncPolicy:
+    automated:
+      enabled: false
+      prune: false
+      selfHeal: false
